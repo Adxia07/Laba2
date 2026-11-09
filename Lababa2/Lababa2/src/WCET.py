@@ -37,3 +37,10 @@ def source_breakdown(fragment: list[Operation], model: Model) -> dict:
     branches = sum(op.branches for op in fragment) * model.branch_mispredict_penalty
     return {"memory": memory, "branches": branches}
 
+def load_file(path: str):
+    with open(path, encoding="utf-8-sig") as f:
+        data = json.load(f)
+    model = Model(**data["model"])
+    fragment = [Operation(**o) for o in data["operations"]]
+    return fragment, model, data["deadline"]
+
