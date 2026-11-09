@@ -44,3 +44,31 @@ def load_file(path: str):
     fragment = [Operation(**o) for o in data["operations"]]
     return fragment, model, data["deadline"]
 
+def main():
+    path = sys.argv[1] if len(sys.argv) > 1 else "data/variant.json"
+    fragment, model, deadline = load_file(path)
+
+    print(f"{'Операция':<40} | {'Тип':<7} | {'Лучшее':>6} | {'Худшее':>6}")
+    print("-" * 68)
+    for op in fragment:
+        print(f"{op.name:<40} | {op.type:<7} | "
+              f"{best_case(op, model):>6} | {worst_case(op, model):>6}")
+    print("-" * 68)
+
+    b, w = bcet(fragment, model), wcet(fragment, model)
+    br = source_breakdown(fragment, model)
+    print(f"BCET = {b} тактов")
+    print(f"WCET = {w} тактов")
+    print(f"Коэффициент недетерминизма = {nondeterminism_ratio(fragment, model):.2f}")
+    print(f"Вклад памяти в наихудшее время: {br['memory']} тактов")
+    print(f"Вклад ветвлений в наихудшее время: {br['branches']} тактов")
+    print(f"Дедлайн = {deadline} тактов")
+    if w <= deadline:
+        print(f"Вывод: фрагмент УКЛАДЫВАЕТСЯ в дедлайн в худшем случае (запас {deadline - w}).")
+    else:
+        print(f"Вывод: фрагмент НЕ УКЛАДЫВАЕТСЯ в дедлайн в худшем случае (превышение {w - deadline}).")
+
+
+if __name__ == "__main__":
+    main()
+
