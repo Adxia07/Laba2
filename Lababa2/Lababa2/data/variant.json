@@ -1,0 +1,94 @@
+{
+  "model": {
+    "base_cost": 1,
+    "cache_miss_penalty": 20,
+    "branch_mispredict_penalty": 10
+  },
+  "deadline": 300,
+  "operations": [
+    {
+      "name": "Сохранение контекста",
+      "type": "store",
+      "mem_accesses": 1,
+      "branches": 0
+    },
+    {
+      "name": "Чтение регистра статуса датчика",
+      "type": "load",
+      "mem_accesses": 1,
+      "branches": 0
+    },
+    {
+      "name": "Проверка флага готовности данных",
+      "type": "branch",
+      "mem_accesses": 0,
+      "branches": 1
+    },
+    {
+      "name": "Чтение значения датчика",
+      "type": "load",
+      "mem_accesses": 1,
+      "branches": 0
+    },
+    {
+      "name": "Проверка диапазона значения",
+      "type": "branch",
+      "mem_accesses": 0,
+      "branches": 1
+    },
+    {
+      "name": "Чтение предыдущих отсчётов (буфер)",
+      "type": "load",
+      "mem_accesses": 2,
+      "branches": 0
+    },
+    {
+      "name": "Фильтрация: сложение отсчётов",
+      "type": "alu",
+      "mem_accesses": 0,
+      "branches": 0
+    },
+    {
+      "name": "Фильтрация: деление на число отсчётов",
+      "type": "alu",
+      "mem_accesses": 0,
+      "branches": 0
+    },
+    {
+      "name": "Обновление буфера отсчётов",
+      "type": "store",
+      "mem_accesses": 1,
+      "branches": 0
+    },
+    {
+      "name": "Запись результата в память",
+      "type": "store",
+      "mem_accesses": 1,
+      "branches": 0
+    },
+    {
+      "name": "Сброс флага прерывания",
+      "type": "store",
+      "mem_accesses": 1,
+      "branches": 0
+    },
+    {
+      "name": "Восстановление контекста",
+      "type": "load",
+      "mem_accesses": 1,
+      "branches": 0
+    },
+    {
+      "name": "Подготовка к выходу из прерывания",
+      "type": "alu",
+      "mem_accesses": 0,
+      "branches": 0
+    },
+    {
+      "name": "Возврат из прерывания",
+      "type": "alu",
+      "mem_accesses": 0,
+      "branches": 0
+    }
+  ]
+}
